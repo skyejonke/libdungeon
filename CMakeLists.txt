@@ -15,16 +15,22 @@ SET(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpeda
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#conan
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 # Add packages
-find_package(Boost REQUIRED COMPONENTS
-  random
-  )
+# find_package(Boost REQUIRED COMPONENTS
+#   random
+  # )
 
 # Libraries
 add_library(libdungeon STATIC src/character.cpp)
 
-# Testing
-target_link_libraries(tests libdungeon)
+target_link_libraries(libdungeon ${CONAN_LIBS})
 
-enable_testing()
-add_test(NAME mainTest COMMAND tests)
+# # Testing
+# target_link_libraries(tests libdungeon)
+
+# enable_testing()
+# add_test(NAME mainTest COMMAND tests)
