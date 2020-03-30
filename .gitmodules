@@ -1,0 +1,3 @@
+[submodule "skyelib"]
+	path = skyelib
+	url = https://github.com/skyejonke/skyelib.git

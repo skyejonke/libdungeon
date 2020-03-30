@@ -6,6 +6,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Directories with header files
 include_directories ("include")
+include_directories ("skyelib")
+add_subdirectory (skyelib)
 
 # Setting compile flags
 SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
@@ -19,18 +21,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-# Add packages
-# find_package(Boost REQUIRED COMPONENTS
-#   random
-  # )
-
 # Libraries
-add_library(libdungeon STATIC src/character.cpp)
+add_library(libdungeon STATIC src/character.cpp src/dice.cpp)
 
-target_link_libraries(libdungeon ${CONAN_LIBS})
+target_link_libraries(libdungeon ${CONAN_LIBS} skyelib)
 
-# # Testing
-# target_link_libraries(tests libdungeon)
+# Testing
+add_executable(tests tests/test.cpp)
 
-# enable_testing()
-# add_test(NAME mainTest COMMAND tests)
+target_link_libraries(tests libdungeon)
+
+enable_testing()
+add_test(NAME mainTest COMMAND tests)

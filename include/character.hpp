@@ -1,55 +1,92 @@
-#pragma once
-#include <boost/random.hpp>
+#ifndef CHAR_H
+#define CHAR_H
+/* #include <boost/random.hpp> */
+#include "skyelib.hpp"
 #include <string>
+#include <map>
+#include <memory>
 
-class character {
+namespace libdungeon {
 
-  public:
+  std::unique_ptr<skyelib::toolkit> tools (new skyelib::toolkit());
+  enum skill {
+    ACROBATICS,
+    ANIMAL,
+    ARCANA,
+    ATHLETICS,
+    DECEPTION,
+    HISTORY,
+    INSIGHT,
+    INTIMIDATION,
+    INVESTIGATION,
+    MEDICINE,
+    NATURE,
+    PERCEPTION,
+    PERFORMANCE,
+    PERSUASION,
+    RELIGION,
+    SLEIGHT,
+    STEALTH,
+    SURVIVAL
+  };
 
-    character(std::string nameIn);
+  enum ability {
+    STRENGTH,
+    DEXTERITY,
+    CONSTITUTION,
+    INTELLIGENCE,
+    WISDOM,
+    CHARISMA
+  };
 
-    enum skill {
-      ACROBATICS,
-      ANIMAL,
-      ARCANA,
-      ATHLETICS,
-      DECEPTION,
-      HISTORY,
-      INSIGHT,
-      INTIMIDATION,
-      INVESTIGATION,
-      MEDICINE,
-      NATURE,
-      PERCEPTION,
-      PERFORMANCE,
-      PERSUASION,
-      SLEIGHT,
-      STEALTH,
-      SURVIVAL
-    };
+  class Character {
 
-    struct proficiences {
-      bool proficient;
-      int bonus;
-    };
+    public:
 
-    struct scores{
-        int str;
-        int dex;
-        int con;
-        int intel;
-        int wis;
-        int cha;
-    };
+      struct proficiency {
+        bool proficient = false;
+        int bonus = 0;
+        ability score;
+      };
+
+      Character(std::string t_name,
+          std::string t_class,
+          int t_level);
+      /* Character(std::string nameIn, scores statsIn); */
+
+      void makeProficient(skill t_skill);
+
+      void setBonus(skill t_skill, int t_bonus);
+
+      int rollCheck(skill t_skill);
+
+      int rollCheck(skill t_skill, bool advantage);
+
+      proficiency getProficiency(skill t_skill);
+
+      std::string getName();
+
+      /* scores getScores(); */
+
+    private:
+      std::string m_name;
+
+      std::string m_class;
+
+      int m_level;
+
+      const static std::map<skill, ability> skillAbilities;
+
+      std::map<skill, proficiency> proficiencies = buildProficiencies();
+
+      std::map<ability, int> scores;
+
+      static std::map<skill, proficiency> buildProficiencies();
+
+      int m_attack;
 
 
-    character(std::string nameIn, scores statsIn);
+  };
+}
 
-
-  private:
-
-    scores stats;
-
-    std::string name;
-
-};
+#endif
