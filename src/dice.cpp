@@ -14,7 +14,7 @@ namespace libdungeon {
     int out = 0;
 
     for (int i = 0; i < m_num; i++){
-      out += tools->getRand(0,m_sides);
+      out += tools.getRand(0,m_sides);
     }
 
     return out;

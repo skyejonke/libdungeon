@@ -4,6 +4,8 @@ using namespace std;
 
 namespace libdungeon {
 
+  skyelib::toolkit tools = skyelib::toolkit();
+
   //Generic constructor
   Character::Character(string t_name, string t_class, int t_level){
     m_name = t_name;

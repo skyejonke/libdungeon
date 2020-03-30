@@ -10,6 +10,3 @@ addons:
   apt:
     update: true
     packages: cmake python-pip
-
-
-

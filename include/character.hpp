@@ -8,7 +8,8 @@
 
 namespace libdungeon {
 
-  std::unique_ptr<skyelib::toolkit> tools (new skyelib::toolkit());
+  extern skyelib::toolkit tools;
+
   enum skill {
     ACROBATICS,
     ANIMAL,
