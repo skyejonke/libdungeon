@@ -1,11 +1,12 @@
 language: C++
 dist: Bionic
 before_install:
+  - pip install conan
   - conan install . --build bzip2 --build zlib --build boost
 addons:
   apt:
     update: true
-    packages: cmake conan
+    packages: cmake pip
 
 
 
