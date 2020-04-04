@@ -4,12 +4,12 @@ using namespace std;
 
 namespace libdungeon {
 
-  dice::dice(int t_num, int t_sides){
+  Dice::Dice(int t_num, int t_sides){
     m_num = t_num;
     m_sides = t_sides;
   }
 
-  int dice::roll(){
+  int Dice::roll(){
 
     int out = 0;
 
@@ -20,4 +20,11 @@ namespace libdungeon {
     return out;
 
   }
+
+  template<class Archive>
+  void Dice::serialize(Archive & ar, const unsigned int version) {
+    ar & m_num;
+    ar & m_sides;
+  }
+
 }

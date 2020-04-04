@@ -1,21 +1,26 @@
 #pragma once
-#include "character.hpp"
+#include "libdungeon.hpp"
 #include "skyelib.hpp"
 
 namespace libdungeon {
 
-  class dice {
+  class Dice {
 
     public:
 
-      dice(int t_num, int t_sides);
+      Dice(int t_num, int t_sides);
 
       int roll();
 
-    private :
+      template<class Archive>
+      void serialize(Archive & ar, const unsigned int version);
+
+    private:
 
       int m_num;
 
       int m_sides;
+
   };
+
 }
