@@ -11,5 +11,4 @@ TEST_CASE("characters work as intended", "[character]"){
 
   REQUIRE("Test" == test.getName());
 
-
 }

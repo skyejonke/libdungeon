@@ -4,6 +4,12 @@ using namespace std;
 
 namespace libdungeon {
 
+  // Creates a basic d20
+  Dice::Dice() {
+    m_num = 1;
+    m_sides = 20;
+  }
+
   Dice::Dice(int t_num, int t_sides){
     m_num = t_num;
     m_sides = t_sides;
@@ -20,11 +26,4 @@ namespace libdungeon {
     return out;
 
   }
-
-  template<class Archive>
-  void Dice::serialize(Archive & ar, const unsigned int version) {
-    ar & m_num;
-    ar & m_sides;
-  }
-
 }

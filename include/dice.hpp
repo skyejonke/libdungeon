@@ -8,12 +8,16 @@ namespace libdungeon {
 
     public:
 
+      Dice();
+
       Dice(int t_num, int t_sides);
 
       int roll();
 
       template<class Archive>
-      void serialize(Archive & ar, const unsigned int version);
+      void serialize(Archive & ar){
+        ar (m_num, m_sides);
+      }
 
     private:
 

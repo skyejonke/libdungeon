@@ -1,13 +1,22 @@
 #include "character.hpp"
 #include "iostream"
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <cereal/archives/binary.hpp>
 
 using namespace std;
 
 namespace libdungeon {
 
   //Generic constructor
+  Character::Character() {
+    m_name = "Venfae";
+    m_class = "Barbarian";
+    m_level = 1;
+    for (int it = STRENGTH; it != CHARISMA + 1 ; it++ ){
+      ability abil = static_cast<ability>(it);
+      m_abilities[abil] = 10;
+    }
+  }
+  //
   Character::Character(string t_name, string t_class, int t_level){
     m_name = t_name;
     m_class = t_class;
@@ -133,20 +142,5 @@ namespace libdungeon {
   void Character::store(string t_path) {
 
   }
-
-  template<class Archive>
-  void Character::serialize(Archive & ar, const unsigned int version) {
-        ar & m_name;
-        /* ar & m_class; */
-        /* ar & m_level; */
-        /* ar & skillAbilities; */
-        /* ar & m_proficiencies; */
-        /* ar & m_attack; */
-        /* ar & checkDie; */
-    }
-
-
-
-
 
 }

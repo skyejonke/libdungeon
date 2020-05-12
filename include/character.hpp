@@ -4,13 +4,7 @@
 #include <string>
 #include <map>
 #include <fstream>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/assume_abstract.hpp>
+#include <cereal/types/string.hpp>
 
 
 namespace libdungeon {
@@ -57,12 +51,17 @@ namespace libdungeon {
   class Character {
 
     public:
-      friend class boost::serialization::access;
 
       struct proficiency {
         bool proficient = false;
         int bonus = 0;
         ability score;
+
+        template<class Archive>
+        void serialize(Archive & ar) {
+          ar (proficient, bonus, score);
+        }
+
       };
 
       struct check {
@@ -70,12 +69,11 @@ namespace libdungeon {
         critical crit;
       };
 
+      Character();
+
       Character(std::string t_name,
           std::string t_class,
           int t_level);
-
-      template<class Archive>
-        void serialize(Archive & ar, const unsigned int version);
 
       void setProficient(skill t_skill, bool t_proficient);
 
@@ -92,6 +90,14 @@ namespace libdungeon {
       void store(std::string t_path);
 
     private:
+
+      friend class cereal::access;
+
+      template<class Archive>
+        void serialize(Archive & ar) {
+          ar (m_class, m_level, m_name, m_proficiencies , m_attack, m_abilities, checkDie);
+        }
+
 
       std::string m_name;
 
