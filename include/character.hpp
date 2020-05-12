@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <fstream>
-#include <cereal/types/string.hpp>
+#include <cereal/access.hpp>
 
 namespace libdungeon {
 
@@ -74,17 +74,26 @@ namespace libdungeon {
           std::string t_class,
           int t_level);
 
+      // Sets wether or not the character is proficient in a specific
+      // skill
       void setProficient(skill t_skill, bool t_proficient);
 
+      // Sets the bonus for a specifcied skill
       void setBonus(skill t_skill, int t_bonus);
 
+      // Rolls a check for a given skill
       check rollCheck(skill t_skill);
 
+      // Rolls a check for a given skill, with a given advantage
       check rollCheck(skill t_skill, advantage t_advantage);
 
+      // Returns the character's proficiency for a skill
       proficiency getProficiency(skill t_skill);
 
       std::string getName();
+
+      void store(std::string t_path);
+
 
     private:
 
@@ -102,10 +111,15 @@ namespace libdungeon {
 
       int m_level;
 
+      // A general map to find the ability score for a given skill
+      // (Athletics to Strength, ect)
       const static std::map<skill, ability> skillAbilities;
 
+      // This is just a map of each skill to a character's specific
+      // proficiency struct
       std::map<skill, proficiency> m_proficiencies = buildProficiencies();
 
+      // These are ability scores (strength, intelligence, ect)
       std::map<ability, int> m_abilities;
 
       static std::map<skill, proficiency> buildProficiencies();

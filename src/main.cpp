@@ -1,7 +1,6 @@
 #include "character.hpp"
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
 
@@ -18,20 +17,20 @@ int main() {
     }
 
     std::ofstream os("out.cereal");
-    cereal::BinaryOutputArchive archive( os );
+    cereal::BinaryOutputArchive archive(os);
 
-    archive( test );
+    archive(test);
   }
 
   {
-  std::ifstream is("out.cereal");
+    std::ifstream is("out.cereal");
 
-   cereal::BinaryInputArchive iarchive(is);
+    cereal::BinaryInputArchive iarchive(is);
 
-   libdungeon::Character test2;
-   iarchive(test2);
+    libdungeon::Character test2;
+    iarchive(test2);
 
-  cout << test2.getName() << endl;
+    cout << test2.getName() << endl;
 
   }
 

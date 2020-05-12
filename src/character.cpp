@@ -111,25 +111,18 @@ namespace libdungeon {
     if (t_advantage != NEITHER){
       auto first = rollCheck(t_skill);
       auto second = rollCheck(t_skill);
-      cout << first.value << endl;
-      cout << second.value << endl;
-
 
       if (first.crit == SUCCESS){
-        cout << "crit" << endl;
         return (t_advantage == ADVANTAGE) ? first : second;
       }
       else if (second.crit == SUCCESS){
-        cout << "2crit" << endl;
         return (t_advantage == ADVANTAGE) ? second : first;
       }
 
       if (first.value > second.value) {
-        cout << "1val" << endl;
         return (t_advantage == ADVANTAGE) ? first : second;
       }
       else {
-        cout << "2val" << endl;
         return (t_advantage == ADVANTAGE) ? second : first;
       }
 

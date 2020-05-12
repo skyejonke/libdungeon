@@ -11,4 +11,9 @@ TEST_CASE("characters work as intended", "[character]"){
 
   REQUIRE("Test" == test.getName());
 
+  test.setProficient(libdungeon::skill::ATHLETICS, true);
+
+  REQUIRE(test.getProficiency(libdungeon::skill::ATHLETICS).proficient);
+
+
 }
