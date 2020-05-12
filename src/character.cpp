@@ -139,8 +139,4 @@ namespace libdungeon {
 
   }
 
-  void Character::store(string t_path) {
-
-  }
-
 }

@@ -6,7 +6,6 @@
 #include <fstream>
 #include <cereal/types/string.hpp>
 
-
 namespace libdungeon {
 
   enum skill {
@@ -86,8 +85,6 @@ namespace libdungeon {
       proficiency getProficiency(skill t_skill);
 
       std::string getName();
-
-      void store(std::string t_path);
 
     private:
 
