@@ -25,7 +25,7 @@ set(HEADER_FILES include/character.hpp include/dice.hpp include/libdungeon.hpp)
 # Libraries
 add_library(libdungeon STATIC src/libdungeon.cpp src/character.cpp src/dice.cpp ${HEADER_FILES})
 
-target_include_directories (libdungeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories (libdungeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include skyelib)
 
 target_link_libraries(libdungeon PUBLIC ${CONAN_LIBS} skyelib)
 
