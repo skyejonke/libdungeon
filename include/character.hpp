@@ -144,19 +144,19 @@ namespace libdungeon {
       void setBonus(skill t_skill, int t_bonus);
 
       // Rolls a check for a given skill
-      check rollCheck(skill t_skill);
+      [[nodiscard]] check rollCheck(skill t_skill);
 
       check rollCheck(ability t_ability);
 
       // Rolls a check for a given skill, with a given advantage
-      check rollCheck(skill t_skill, advantage t_advantage);
+      [[nodiscard]] check rollCheck(skill t_skill, advantage t_advantage);
 
       check rollCheck(ability t_ability, advantage t_advantage);
 
       // Returns the character's proficiency for a skill
-      proficiency getProficiency(skill t_skill);
+      [[nodiscard]] proficiency getProficiency(skill t_skill);
 
-      std::string getName();
+      [[nodiscard]] std::string getName();
 
       void store(std::string t_path);
 
