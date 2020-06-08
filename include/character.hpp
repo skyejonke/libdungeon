@@ -23,7 +23,32 @@ namespace libdungeon {
     RELIGION,
     SLEIGHT,
     STEALTH,
-    SURVIVAL
+    SURVIVAL,
+    NONE
+  };
+
+  const static std::map<skill, std::string> skillNames {
+
+    {skill::ACROBATICS, "Acrobatics"},
+    {skill::ANIMAL, "Animal Handling"},
+    {skill::ARCANA, "Arcana"},
+    {skill::ATHLETICS, "Athletics"},
+    {skill::DECEPTION, "Deception"},
+    {skill::HISTORY, "History"},
+    {skill::INSIGHT, "Insight"},
+    {skill::INTIMIDATION, "Intimidation"},
+    {skill::INVESTIGATION, "Investigation"},
+    {skill::MEDICINE, "Medicine"},
+    {skill::NATURE, "Nature"},
+    {skill::PERCEPTION, "Perception"},
+    {skill::PERFORMANCE, "Performance"},
+    {skill::PERSUASION, "Persuasion"},
+    {skill::RELIGION, "Relgion"},
+    {skill::SLEIGHT, "Sleight of Hand"},
+    {skill::STEALTH, "Stealth"},
+    {skill::SURVIVAL, "Survival"},
+    {skill::NONE, "None"}
+
   };
 
   enum ability {
@@ -32,13 +57,50 @@ namespace libdungeon {
     CONSTITUTION,
     INTELLIGENCE,
     WISDOM,
-    CHARISMA
+    CHARISMA,
+    NOT
   };
+
+  const static std::map<ability, std::string> abilityNames {
+    {ability::STRENGTH, "Strength"},
+      {ability::DEXTERITY, "Dexterity"},
+      {ability::CONSTITUTION, "Constitution"},
+      {ability::INTELLIGENCE, "Intelligence"},
+      {ability::WISDOM, "Wisdom"},
+      {ability::CHARISMA, "Charisma"},
+      {ability::NOT, "None"}
+  };
+
+
+  // A general map to find the ability score for a given skill
+  // (Athletics to Strength, ect)
+  const static std::map<skill, ability> skillAbilities = {
+    {ACROBATICS, DEXTERITY},
+    {ANIMAL, WISDOM},
+    {ARCANA, INTELLIGENCE},
+    {ATHLETICS, STRENGTH},
+    {DECEPTION, CHARISMA},
+    {HISTORY, INTELLIGENCE},
+    {INSIGHT, WISDOM},
+    {INTIMIDATION, CHARISMA},
+    {INVESTIGATION, INTELLIGENCE},
+    {MEDICINE, WISDOM},
+    {NATURE, INTELLIGENCE},
+    {PERCEPTION, WISDOM},
+    {PERFORMANCE, CHARISMA},
+    {PERSUASION, CHARISMA},
+    {RELIGION, INTELLIGENCE},
+    {SLEIGHT, DEXTERITY},
+    {STEALTH, DEXTERITY},
+    {SURVIVAL, WISDOM},
+    {NONE, NOT}
+  };
+
 
   enum critical {
     SUCCESS,
     FAILURE,
-    NONE
+    NOCRIT
   };
 
   enum advantage {
@@ -84,8 +146,12 @@ namespace libdungeon {
       // Rolls a check for a given skill
       check rollCheck(skill t_skill);
 
+      check rollCheck(ability t_ability);
+
       // Rolls a check for a given skill, with a given advantage
       check rollCheck(skill t_skill, advantage t_advantage);
+
+      check rollCheck(ability t_ability, advantage t_advantage);
 
       // Returns the character's proficiency for a skill
       proficiency getProficiency(skill t_skill);
@@ -110,10 +176,6 @@ namespace libdungeon {
       std::string m_class;
 
       int m_level;
-
-      // A general map to find the ability score for a given skill
-      // (Athletics to Strength, ect)
-      const static std::map<skill, ability> skillAbilities;
 
       // This is just a map of each skill to a character's specific
       // proficiency struct

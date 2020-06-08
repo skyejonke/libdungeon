@@ -29,28 +29,6 @@ namespace libdungeon {
     }
   }
 
-  // A map of which skills use which ability scores
-  const map<skill, ability> Character::skillAbilities = {
-    {ACROBATICS, DEXTERITY},
-    {ANIMAL, WISDOM},
-    {ARCANA, INTELLIGENCE},
-    {ATHLETICS, STRENGTH},
-    {DECEPTION, CHARISMA},
-    {HISTORY, INTELLIGENCE},
-    {INSIGHT, WISDOM},
-    {INTIMIDATION, CHARISMA},
-    {INVESTIGATION, INTELLIGENCE},
-    {MEDICINE, WISDOM},
-    {NATURE, INTELLIGENCE},
-    {PERCEPTION, WISDOM},
-    {PERFORMANCE, CHARISMA},
-    {PERSUASION, CHARISMA},
-    {RELIGION, INTELLIGENCE},
-    {SLEIGHT, DEXTERITY},
-    {STEALTH, DEXTERITY},
-    {SURVIVAL, WISDOM}
-  };
-
   // This builds the character's proficiency list.
   std::map<skill, Character::proficiency> Character::buildProficiencies(){
     map<skill, Character::proficiency> out;
@@ -93,43 +71,96 @@ namespace libdungeon {
     }
 
     else {
-      out.crit = NONE;
+      out.crit = NOCRIT;
     }
 
-    out.value +=
-      // Is the user proficient in this skill? If so, add their bonus
-      ((int) m_proficiencies[t_skill].proficient)*((7 + m_level)/4) +
-      // Get the user's ability score mod
-      (m_abilities[m_proficiencies[t_skill].score] - 10) / 2;
+    if (t_skill != skill::NONE) {
+      out.value +=
+        // Is the user proficient in this skill? If so, add their bonus
+        ((int) m_proficiencies[t_skill].proficient)*((7 + m_level)/4) +
+        // Get the user's ability score mod
+        (m_abilities[m_proficiencies[t_skill].score] - 10) / 2;
+    }
 
     return out;
 
   }
 
-  Character::check Character::rollCheck(skill t_skill, advantage t_advantage){
+  Character::check Character::rollCheck(ability t_ability) {
+    Character::check out {};
+    out.value = checkDie.roll();
 
-    if (t_advantage != NEITHER){
-      auto first = rollCheck(t_skill);
-      auto second = rollCheck(t_skill);
+    if (out.value == 20){
+      out.crit = SUCCESS;
+    }
+    else if (out.value == 1){
+      out.crit = FAILURE;
+    }
 
-      if (first.crit == SUCCESS){
-        return (t_advantage == ADVANTAGE) ? first : second;
-      }
-      else if (second.crit == SUCCESS){
-        return (t_advantage == ADVANTAGE) ? second : first;
+    else {
+      out.crit = NOCRIT;
+    }
+
+    out.value +=
+      // Get the user's ability score mod
+      (m_abilities[t_ability] - 10) / 2;
+
+    return out;
+  }
+
+
+
+
+    Character::check Character::rollCheck(skill t_skill, advantage t_advantage){
+
+      if (t_advantage != NEITHER){
+        auto first = rollCheck(t_skill);
+        auto second = rollCheck(t_skill);
+
+        if (first.crit == SUCCESS){
+          return (t_advantage == ADVANTAGE) ? first : second;
+        }
+        else if (second.crit == SUCCESS){
+          return (t_advantage == ADVANTAGE) ? second : first;
+        }
+
+        if (first.value > second.value) {
+          return (t_advantage == ADVANTAGE) ? first : second;
+        }
+        else {
+          return (t_advantage == ADVANTAGE) ? second : first;
+        }
+
       }
 
-      if (first.value > second.value) {
-        return (t_advantage == ADVANTAGE) ? first : second;
-      }
-      else {
-        return (t_advantage == ADVANTAGE) ? second : first;
-      }
+      return rollCheck(t_skill);
 
     }
 
-    return rollCheck(t_skill);
+    Character::check Character::rollCheck(ability t_ability, advantage t_advantage){
+
+      if (t_advantage != NEITHER){
+        auto first = rollCheck(t_ability);
+        auto second = rollCheck(t_ability);
+
+        if (first.crit == SUCCESS){
+          return (t_advantage == ADVANTAGE) ? first : second;
+        }
+        else if (second.crit == SUCCESS){
+          return (t_advantage == ADVANTAGE) ? second : first;
+        }
+
+        if (first.value > second.value) {
+          return (t_advantage == ADVANTAGE) ? first : second;
+        }
+        else {
+          return (t_advantage == ADVANTAGE) ? second : first;
+        }
+
+      }
+
+      return rollCheck(t_ability);
+
+    }
 
   }
-
-}
